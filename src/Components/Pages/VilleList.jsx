@@ -6,43 +6,70 @@ const VilleList = () => {
 
     const [villes , setVilles] = useState([]);
     useEffect(()=>{
-        axios.get("/api/villes/1").then((response) =>{
+        axios.get("/api/villes").then((response) =>{
             setVilles(response.data);
         });
-    }, []);
+    }, [villes]);
+
+
+
+    const handleDelete = (id) => {
+        if (window.confirm("Are you sure you want to delete this city?")) {
+            axios.delete(`/api/villes/${id}`).then(() => {
+                setVilles(villes.filter((ville) => ville.id !== id));
+            });
+        }
+    };
+
+    const handleEdit = (id) => {
+        const newName = window.prompt("Enter the new name for this city:");
+        if (newName) {
+            axios.put(`/api/villes/{id}`, {nom:newName }).then(() => {
+                setVilles(villes.map((ville) => {
+                    if (ville.id === id) {
+                        return { ...ville, nom: newName };
+                    }
+                    return ville;
+                }));
+            });
+        }
+    };
+
     return (
-        <>
-            <h1>data</h1>
-            <p>Code: {villes.nom}</p>
-        </>
+        <div>
+            <h2>City List</h2>
+            <Link to="/create-city" className="btn btn-primary">
+                Create City
+            </Link>
+            <table className="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {villes.map((ville) => (
+                    <tr key={ville.id}>
+                        <td>{ville.id}</td>
+                        <td>{ville.nom}</td>
+                        <td>
+                            <button className="btn btn-danger" onClick={() => handleDelete(ville.id)}>
+                                Delete
+                            </button>
+                            <button className="btn btn-secondary ml-2" onClick={() => handleEdit(ville.id)}>
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+
+        </div>
     );
 }
 
 
-/*
-
-
- /*function VilleList() {
-     const [btcData, setBtcData] = useState({});
-         useEffect(() => {
-         const headers = {
-             "Access-Control-Allow-Origin": "http://localhost:8083"
-         };
-             console.log("btcData0", btcData);
-         fetch("/api/villes/1", { method: 'GET', headers })
-             .then(response => response.json())
-             .then(jsonData => {
-                 setBtcData(jsonData);
-                 console.log("btcData1", btcData); // will log the previous value of btcData
-             })
-             .catch(error => console.log(error));
-     }, []);console.log("btcData3", btcData);
-
-     return (
-         <>
-             <h1>Current BTC/USD data</h1>
-             <p>Code: {btcData.nom}</p>
-         </>
-     );
-}*/
 export default VilleList;

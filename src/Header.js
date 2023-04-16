@@ -30,7 +30,7 @@ const Header = () => (
                             </NavItem>
 
                             <NavItem className="d-flex align-items-center">
-                                <NavLink className="font-weight-bold" href="/">Electronics</NavLink>
+                                <NavLink className="font-weight-bold" href="/">Carte</NavLink>
                             </NavItem>
 
                             <UncontrolledDropdown className="d-flex align-items-center" nav inNavbar>

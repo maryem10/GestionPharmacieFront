@@ -9,12 +9,14 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 function App() {
   return (
-      <ChakraProvider>
-        <Header/>,
-        <Footer/>
-      </ChakraProvider>
+      <div>
+      {/*<Header/>*/}
+      {/*<ChakraProvider>*/}
 
-  /*    <BrowserRouter>
+      {/*  <Footer/>*/}
+      {/*</ChakraProvider>*/}
+
+     <BrowserRouter>
       <div>
           <nav>
           <Link to="/ville" className="nav-item">About Little Lemon</Link>
@@ -26,7 +28,8 @@ function App() {
           </Routes>
 
       </div>
-      </BrowserRouter>*/
+      </BrowserRouter>
+      </div>
   );
 }
 
