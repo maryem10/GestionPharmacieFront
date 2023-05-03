@@ -59,7 +59,7 @@ export default function LargeWithAppLinksAndSocial() {
         <Box
             bg={useColorModeValue('gray.50', 'gray.900')}
             color={useColorModeValue('gray.700', 'gray.200')}>
-            <Container as={Stack} maxW={'6xl'} py={10}>
+          {/*  <Container as={Stack} maxW={'6xl'} py={10}>
                 <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
                     <Stack align={'flex-start'}>
                         <ListHeader>Company</ListHeader>
@@ -91,7 +91,7 @@ export default function LargeWithAppLinksAndSocial() {
                     </Stack>
                 </SimpleGrid>
             </Container>
-
+    */}
             <Box
                 borderTopWidth={1}
                 borderStyle={'solid'}
@@ -104,7 +104,7 @@ export default function LargeWithAppLinksAndSocial() {
                     spacing={4}
                     justify={{ md: 'space-between' }}
                     align={{ md: 'center' }}>
-                    <Text>© 2022 Chakra Templates. All rights reserved</Text>
+                    <Text>© 2023 FindYourPharmacy site web. All rights reserved</Text>
                     <Stack direction={'row'} spacing={6}>
                         <SocialButton label={'Twitter'} href={'#'}>
                             <FaTwitter />
