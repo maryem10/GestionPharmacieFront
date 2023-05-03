@@ -1,34 +1,45 @@
 import './App.css';
-import Header from'./Header.js';
-import Footer from './Footer'
-import VilleList from "./Components/Pages/VilleList";
+import Header from './Components/Layout/Header.js';
+import Footer from './Components/Layout/Footer'
+import {VilleLists, VilleForm}  from "./Components/Pages/VilleList";
+
+
+
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route,Link} from "react-router-dom";
 
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react';
+import WithSubnavigation from "./Components/Layout/navBar";
+
 
 function App() {
   return (
       <div>
-      {/*<Header/>*/}
-      {/*<ChakraProvider>*/}
+        {/*<Header/>*/}
+          <ChakraProvider>
+            <WithSubnavigation/>
+          </ChakraProvider>
+      <BrowserRouter>
+          <div>
 
-      {/*  <Footer/>*/}
-      {/*</ChakraProvider>*/}
+              <Routes>
+                  <Route path="/ville" element={<VilleLists />}></Route>
+                  <Route path="/creationVille" element={<VilleForm />} />
+                  {/*<Route path="/zone" element={<ZoneList/>} />*/}
+                  {/*<Route path="/create-zone" element={<ZoneForm />} />*/}
+                  {/*<Route path="/zoneByCity" element={<ZoneByCity />} />*/}
 
-     <BrowserRouter>
-      <div>
-          <nav>
-          <Link to="/ville" className="nav-item">About Little Lemon</Link>
+              </Routes>
 
-      </nav>
-
-          <Routes>
-              <Route path="/ville" element={<VilleList />}></Route>
-          </Routes>
-
-      </div>
+          </div>
       </BrowserRouter>
+
+      <ChakraProvider>
+        <Footer/>
+      </ChakraProvider>
+
+
       </div>
   );
 }
