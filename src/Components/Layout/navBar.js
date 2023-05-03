@@ -254,29 +254,23 @@ const NAV_ITEMS: Array<NavItem> = [
             {
                 label: 'Explore pharamacy by ville',
                 // subLabel: 'Trending Design to inspire you',
-                href: '#',
+                href: '/ville',
+            },
+            {
+                label: 'Explore pharamacy by ville',
+                // subLabel: 'Trending Design to inspire you',
+                href: '/zone',
             },
             {
                 label: 'List of the pharmacies',
                 // subLabel: 'Up-and-coming Designers',
-                href: '#',
+                href: '/pharmacie',
             },
         ],
     },
     {
         label: 'Maps',
-        children: [
-            {
-                label: 'Job Board',
-                subLabel: 'Find your dream design job',
-                href: '#',
-            },
-            {
-                label: 'Freelance Projects',
-                subLabel: 'An exclusive list for contract work',
-                href: '#',
-            },
-        ],
+        href: '/Maps',
     },
     {
         label: 'Popular pharmacies',
