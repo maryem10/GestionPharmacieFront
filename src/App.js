@@ -3,6 +3,7 @@ import Header from './Components/Layout/Header.js';
 import Footer from './Components/Layout/Footer'
 import {VilleLists, VilleForm}  from "./Components/Pages/VilleList";
 import LoginForm from "./Components/auth/loginPage"
+import MapComponent from "./Components/Pages/localisation/Map"
 
 
 
@@ -28,6 +29,7 @@ function App() {
                   <Route path="/ville" element={<VilleLists />}></Route>
                   <Route path="/creationVille" element={<VilleForm />} />
                   <Route path="/login" element={<LoginForm/>} />
+                  <Route path="/maps" element={<MapComponent/>} />
                   {/*<Route path="/create-zone" element={<ZoneForm />} />*/}
                   {/*<Route path="/zoneByCity" element={<ZoneByCity />} />*/}
 
