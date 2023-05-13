@@ -267,17 +267,18 @@ const NAV_ITEMS: Array<NavItem> = [
                 href: '/pharmacie',
             },
         ],
+        href:'/'
     },
     {
         label: 'Maps',
-        href: '/Maps',
+        href: '/maps',
     },
     {
         label: 'Popular pharmacies',
-        href: '#',
+        href: '/pharmacie',
     },
     {
         label: 'on-call pharmacy',
-        href: '#',
+        href: '/garde',
     },
 ];
