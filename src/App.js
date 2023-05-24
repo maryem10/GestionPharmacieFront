@@ -1,7 +1,9 @@
+
 import './App.css';
 import Header from './Components/Layout/Header.js';
-import Footer from './Components/Layout/Footer'
-import {VilleLists, VilleForm}  from "./Components/Pages/VilleList";
+import Footer from './Components/Layout/Footer';
+import {CityForm,CityList ,VilleForm, VilleLists}  from "./Components/Pages/VilleList";
+import {ZoneLists, ZoneForm}  from "./Components/Pages/ZoneList";
 import LoginForm from "./Components/auth/loginPage"
 
 
@@ -26,8 +28,13 @@ function App() {
 
               <Routes>
                   <Route path="/ville" element={<VilleLists />}></Route>
+                  <Route path="/zone" element={<ZoneLists />}>
+                    console.log("ZoneList")
+                  </Route>
                   <Route path="/creationVille" element={<VilleForm />} />
+                  <Route path="/creationZone" element={<ZoneForm />} />
                   <Route path="/login" element={<LoginForm/>} />
+
                   {/*<Route path="/create-zone" element={<ZoneForm />} />*/}
                   {/*<Route path="/zoneByCity" element={<ZoneByCity />} />*/}
 

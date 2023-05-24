@@ -3,20 +3,22 @@ import { Link , useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
+
  const VilleLists = () => {
 
     const [villes , setVilles] = useState([]);
     useEffect(()=>{
-        axios.get("/api/villes").then((response) =>{
+        axios.get("/api/ville/all").then((response) =>{
             setVilles(response.data);
         });
-    }, [villes]);
+
+    }, []);
 
 
 
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this city?")) {
-            axios.delete(`/api/villes/delete/${id}`).then(() => {
+            axios.delete(`/api/ville/delete/${id}`).then(() => {
                 setVilles(villes.filter((ville) => ville.id !== id));
             });
         }
@@ -25,7 +27,7 @@ import axios from "axios";
     const handleEdit = (id) => {
         const newName = window.prompt("Enter the new name for this city:");
         if (newName) {
-            axios.put(`/api/villes/update/${id}`, {nom:newName }).then(() => {
+            axios.put(`/api/ville/update/${id}`, {nom:newName }).then(() => {
                 setVilles(villes.map((ville) => {
                     if (ville.id === id) {
                         return { ...ville, nom: newName };
@@ -64,12 +66,13 @@ import axios from "axios";
                             </button>
                         </td>
                     </tr>
-                ))}
+                ))
+                }
                 </tbody>
             </table>
 
         </div>
-    );
+    ); console.log(villes);
 }
 
 
@@ -79,7 +82,7 @@ import axios from "axios";
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post("/api/villes/save" , { nom }).then(() => {
+        axios.post("/api/ville/save" , { nom }).then(() => {
             navigate("/");
         });
 
@@ -104,7 +107,8 @@ import axios from "axios";
             </form>
         </div>
     )
-
 }
-
 export {VilleForm, VilleLists} ;
+
+
+
