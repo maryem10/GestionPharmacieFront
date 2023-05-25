@@ -1,10 +1,13 @@
+import 'tailwindcss/tailwind.css';
 
 import './App.css';
 import Header from './Components/Layout/Header.js';
 import Footer from './Components/Layout/Footer';
 import {CityForm,CityList ,VilleForm, VilleLists}  from "./Components/Pages/VilleList";
+import Pharmacy from "./Components/Pages/Pharmacie";
 import {ZoneLists, ZoneForm}  from "./Components/Pages/ZoneList";
-import LoginForm from "./Components/auth/loginPage"
+import LoginForm from "./Components/auth/loginPage";
+import Home from "./Components/Pages/Home";
 
 
 
@@ -24,15 +27,17 @@ function App() {
             <WithSubnavigation/>
           </ChakraProvider>
       <BrowserRouter>
+
           <div>
 
               <Routes>
                   <Route path="/ville" element={<VilleLists />}></Route>
-                  <Route path="/zone" element={<ZoneLists />}>
-                    console.log("ZoneList")
+                  <Route path="/zone" element={<ZoneLists />}/>
+                  <Route path="/pharmacie" element={<Pharmacy />}>
                   </Route>
                   <Route path="/creationVille" element={<VilleForm />} />
                   <Route path="/creationZone" element={<ZoneForm />} />
+                  <Route path="/" element={<Home/>} />
                   <Route path="/login" element={<LoginForm/>} />
 
                   {/*<Route path="/create-zone" element={<ZoneForm />} />*/}
