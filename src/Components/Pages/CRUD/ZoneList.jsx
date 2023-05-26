@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate ,useParams }  from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { Button } from "reactstrap";
 
 
 const ZoneForm = () => {
@@ -78,105 +77,22 @@ const ZoneForm = () => {
   );
 };
 
-const ZoneLists = () => {
+const ZoneLists = ({ villeId }) => {
   const [zones, setZones] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedZone, setSelectedZone] = useState(null);
+  const [villes, setVilles] = useState([]);
+  const [ville, setVille] = useState(null);
+  const [zoneName, setZoneName] = useState("");
 
-
-  const [villeNom, setVilleNom] = useState("");
-
-  const [zoneName, setZoneName] = useState([]);
-
-/////////////////////////////////////
-
-const [nom, setNom] = useState("");
-    const [villeId, setVilleId] = useState("");
-
-    const [ville, setVille] = useState({});
-
-
-    const [zone, setZone] = useState([]);
-    const [villes, setVilles] = useState([]);
-
-
-
-    const { id } = useParams()
-
-    useEffect(() => {
-        loadZone()
-        villeList()
-
-    }, []
-    );
-
-    const handleVilleChange = (selectedOption) => {
-    
-       const VilleId = selectedOption.value;
-
-       setVille(VilleId);
-       setVilleId(VilleId.id);
-
-       console.log("imaaane",ville);
-       console.log("imaaane",villeId);
-
-    };
-
-
-    const loadZone = async () => {
-
-        const result = await axios.get(`/api/zones/findById/${id}`)
-        setZone(result.data)
-        setNom(result.data.nom)
-        setVille(result.data.ville)
-        console.log(result.data)
-
-    };
-    const villeList = () => {
-        axios
-            .get('/api/ville/all')
-            .then((response) => {
-                setVilles(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-  
-
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        //console.log(ville);
-      //  console.log(villeId);
-
-
-        axios.put("/api/zone/update/", {
-            
-            id: id,
-            nom: nom,
-            ville: {
-                id: villeId
-            },
-
-
-        }).then((response) => {
-;
-        });
-    };
-
-
-  
-  // Load data
   useEffect(() => {
     axios.get("/api/zone/all").then((response) => {
       setZones(response.data);
-    })
+    });
   }, [villeId]);
 
   useEffect(() => {
-    axios.get("api/ville/all").then((response) => {
+    axios.get("/api/ville/all").then((response) => {
       setVilles(response.data);
     });
   }, []);
@@ -190,12 +106,9 @@ const [nom, setNom] = useState("");
   };
 
   const handleOpenModal = (zone) => {
-    axios.get(`/api/zone/find/${zone.id}`).then((response) => {
-        setVille(response.data.ville);
-        setZoneName(zone.nom);
-      });
-
-    
+    setSelectedZone(zone);
+    setVille(zone.ville);
+    setZoneName(zone.nom);
     setModalIsOpen(true);
   };
 
@@ -204,17 +117,38 @@ const [nom, setNom] = useState("");
     setModalIsOpen(false);
   };
 
-  
+  const handleSave = () => {
+    const updatedZone = {
+      id: selectedZone.id,
+      nom: zoneName,
+      ville: {
+        id: ville.id,
+      },
+    };
+
+    axios.put(`/api/zone/update/${selectedZone.id}`, updatedZone)
+      .then((response) => {
+        // Handle successful update
+        console.log("Zone updated successfully!");
+        // Refresh the zone list
+        axios.get("/api/zone/all").then((response) => {
+          setZones(response.data);
+        });
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Failed to update zone:", error);
+      });
+
+    handleCloseModal();
+  };
 
   return (
     <div>
       <h2>Zone List</h2>
       <Link to="/creationZone" className="bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-center ml-4">
-        Create Zone<FaPlus className="ml-2"/>
+        Create Zone <FaPlus className="ml-2" />
       </Link>
-      <p>
-        
-      </p>
       <table className="w-full border-collapse">
         <thead>
           <tr>
@@ -233,18 +167,13 @@ const [nom, setNom] = useState("");
                 {zone.ville && zone.ville.nom}
               </td>
               <td className="border py-2 px-4">
-              <button
-                    className="bg-red-500 text-white  py-2 px-4 rounded-md flex items-center justify-center ml-4"
-                    onClick={() => handleDelete(zone.id)}
-                  >
-                    Delete <FaTrash className="ml-2" />
-                  </button>
-                  <p>
-
-
-
-                  </p>
-            <button
+                <button
+                  className="bg-red-500 text-white py-2 px-4 rounded-md flex items-center justify-center ml-4"
+                  onClick={() => handleDelete(zone.id)}
+                >
+                  Delete <FaTrash className="ml-2" />
+                </button>
+                <button
                   className="bg-gray-500 text-white py-2 px-4 rounded-md flex items-center justify-center ml-4"
                   onClick={() => handleOpenModal(zone)}
                 >
@@ -255,49 +184,54 @@ const [nom, setNom] = useState("");
           ))}
         </tbody>
       </table>
-      <Modal  isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
+      <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
         <h3>Modification de la zone</h3>
-        
+        <ul>
+          <li>
             <label>Nom de la zone:</label>
-            <form onSubmit={handleSubmit} >
             <input
-             value={nom}
-             name='nom'
-             onChange={(event) => setNom(event.target.value)}
-          
-             required
-             label='Nom'
               type="text"
-           
+              value={zoneName}
+              onChange={(event) => setZoneName(event.target.value)}
               className="border border-gray-300 rounded-md px-4 py-2 w-full"
             />
-         
+          </li>
+          <li>
             <label>Ville:</label>
-            <select 
-
-
-  id='select3'
-                                required
-                                className='form-control'
-                                onChange={handleVilleChange}
-                                value={{ value: villeId, label: ville && ville.nom }}
-                               // value={ville && { value: ville, label: ville.nom }}
-                              //  value={{ value: villeId, label: ville && ville.nom }}
-                              //value={{villeId}}
-
-                                options={villes.map((v) => ({ value: v, label: v.nom }))}   >         </select>
-            
+            <select
+              value={ville ? ville.id : ""}
+              onChange={(event) => {
+                const selectedVille = villes.find(
+                  (city) => city.id === parseInt(event.target.value)
+                );
+                setVille(selectedVille);
+              }}
+              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+            >
+              {villes.map((city) => (
+                <option key={city.id} value={city.id}>
+                  {city.nom}
+                </option>
+              ))}
+            </select>
+          </li>
+        </ul>
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-md"
           onClick={handleCloseModal}
         >
           Annuler
         </button>
-          <Button type='submit'>Edit</Button>
-        </form>
+        <button
+          className="bg-green-500 text-white py-2 px-4 rounded-md ml-2"
+          onClick={handleSave}
+        >
+          Sauvegarder
+        </button>
       </Modal>
     </div>
   );
 };
+
 
 export { ZoneForm, ZoneLists };
